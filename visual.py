@@ -60,7 +60,7 @@ if inputExcelFile is not None:
         ]
     }
 
-    st.write("### Nightingale (Rose) Chart for Missing Values")
+    st.write("### Chart for Missing Values")
     st_echarts(options=option, height="500px")
 
     # Map pandas dtypes to MySQL data types

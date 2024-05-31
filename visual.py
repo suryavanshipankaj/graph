@@ -13,8 +13,8 @@ if inputExcelFile is not None:
     df = pd.read_excel(inputExcelFile)
 
     # Display the DataFrame
-    st.write("### Uploaded DataFrame")
-    st.dataframe(df)
+    #st.write("### Uploaded DataFrame")
+    #st.dataframe(df)
 
     # Calculate missing values and their count column-wise
     missing_values = df.isnull().sum()
@@ -26,8 +26,8 @@ if inputExcelFile is not None:
     })
 
     # Display missing values count
-    st.write("### Missing Values Count")
-    st.dataframe(missing_values_df)
+    #st.write("### Missing Values Count")
+    #st.dataframe(missing_values_df)
 
     # Create Nightingale (Rose) Chart for missing values
     data = [{"value": count, "name": col} for col, count in zip(missing_values_df["Column"], missing_values_df["Missing Values Count"])]

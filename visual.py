@@ -26,7 +26,7 @@ if inputExcelFile is not None:
     })
 
     # Display missing values count
-    #st.write("### Missing Values Count")
+    #st.write("###           Missing Values Count")
     #st.dataframe(missing_values_df)
 
     # Create Nightingale (Rose) Chart for missing values

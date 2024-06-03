@@ -2,9 +2,8 @@ import pandas as pd
 import streamlit as st
 from io import BytesIO
 from streamlit_echarts import st_echarts
-
 st.title("Generate SQL Script from Excel File")
-
+col1, col2 = st.columns(2)
 # Upload Excel file
 inputExcelFile = st.sidebar.file_uploader("Upload Excel File", type=["xlsx", "xls"])
 
@@ -24,7 +23,8 @@ if inputExcelFile is not None:
         "Column": missing_values.index,
         "Missing Values Count": missing_values.values
     })
-
+with col1:
+   st.header("A cat")
     # Display missing values count
     #st.write("###           Missing Values Count")
     #st.dataframe(missing_values_df)
@@ -62,7 +62,8 @@ if inputExcelFile is not None:
 
     st.write("### Chart for Missing Values")
     st_echarts(options=option, height="500px")
-
+with col2:
+   st.header("A cat")
     # Map pandas dtypes to MySQL data types
     dtype_mapping = {
         'object': 'VARCHAR(255)',

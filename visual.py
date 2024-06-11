@@ -2,7 +2,9 @@ import pandas as pd
 import streamlit as st
 from io import BytesIO
 from streamlit_echarts import st_echarts
+
 st.title("Generate SQL Script from Excel File")
+
 # Upload Excel file
 inputExcelFile = st.sidebar.file_uploader("Upload Excel File", type=["xlsx", "xls"])
 
@@ -11,8 +13,8 @@ if inputExcelFile is not None:
     df = pd.read_excel(inputExcelFile)
 
     # Display the DataFrame
-    #st.write("### Uploaded DataFrame")
-    #st.dataframe(df)
+    st.write("### Uploaded DataFrame")
+    st.dataframe(df)
 
     # Calculate missing values and their count column-wise
     missing_values = df.isnull().sum()
@@ -24,12 +26,12 @@ if inputExcelFile is not None:
     })
 
     # Display missing values count
-    #st.write("###           Missing Values Count")
-    #st.dataframe(missing_values_df)
+    st.write("### Missing Values Count")
+    st.dataframe(missing_values_df)
 
     # Create Nightingale (Rose) Chart for missing values
     data = [{"value": count, "name": col} for col, count in zip(missing_values_df["Column"], missing_values_df["Missing Values Count"])]
-    option = {
+    nightingale_option = {
         "title": {
             "text": 'Missing Values Count',
             "left": 'center'
@@ -58,60 +60,58 @@ if inputExcelFile is not None:
         ]
     }
 
-    st.write("### Chart for Missing Values")
-    st_echarts(options=option, height="500px")
-# Display missing values count
-st.write("### Missing Values Count")
-st.dataframe(missing_values_df)
+    st.write("### Nightingale (Rose) Chart for Missing Values")
+    st_echarts(options=nightingale_option, height="500px")
 
-# Create line race chart data
-categories = missing_values_df["Column"].tolist()
-values = missing_values_df["Missing Values Count"].tolist()
+    # Create line race chart data
+    categories = missing_values_df["Column"].tolist()
+    values = missing_values_df["Missing Values Count"].tolist()
 
-option = {
-    "title": {
-        "text": 'Missing Values Count',
-        "left": 'center'
-    },
-    "tooltip": {
-        "trigger": 'axis',
-        "axisPointer": {
-            "type": 'shadow'
-        }
-    },
-    "legend": {
-        "data": categories,
-        "top": 'bottom'
-    },
-    "grid": {
-        "left": '3%',
-        "right": '4%',
-        "bottom": '3%',
-        "containLabel": True
-    },
-    "xAxis": {
-        "type": 'category',
-        "data": categories,
-        "axisTick": {
-            "alignWithLabel": True
-        }
-    },
-    "yAxis": {
-        "type": 'value'
-    },
-    "series": [
-        {
-            "name": 'Missing Values Count',
-            "type": 'line',
-            "data": values,
-            "animationDuration": 2000,
-            "animationEasing": 'linear'
-        }
-    ]
-}
+    line_race_option = {
+        "title": {
+            "text": 'Missing Values Count',
+            "left": 'center'
+        },
+        "tooltip": {
+            "trigger": 'axis',
+            "axisPointer": {
+                "type": 'shadow'
+            }
+        },
+        "legend": {
+            "data": categories,
+            "top": 'bottom'
+        },
+        "grid": {
+            "left": '3%',
+            "right": '4%',
+            "bottom": '3%',
+            "containLabel": True
+        },
+        "xAxis": {
+            "type": 'category',
+            "data": categories,
+            "axisTick": {
+                "alignWithLabel": True
+            }
+        },
+        "yAxis": {
+            "type": 'value'
+        },
+        "series": [
+            {
+                "name": 'Missing Values Count',
+                "type": 'line',
+                "data": values,
+                "animationDuration": 2000,
+                "animationEasing": 'linear'
+            }
+        ]
+    }
 
-st.write("### Chart for Missing Values")
-st_echarts(options=option, height="500px")
+    st.write("### Line Race Chart for Missing Values")
+    st_echarts(options=line_race_option, height="500px")
+
     # Map pandas dtypes to MySQL data types
     dtype_mapping = {
         'object': 'VARCHAR(255)',

@@ -60,7 +60,58 @@ if inputExcelFile is not None:
 
     st.write("### Chart for Missing Values")
     st_echarts(options=option, height="500px")
+# Display missing values count
+st.write("### Missing Values Count")
+st.dataframe(missing_values_df)
 
+# Create line race chart data
+categories = missing_values_df["Column"].tolist()
+values = missing_values_df["Missing Values Count"].tolist()
+
+option = {
+    "title": {
+        "text": 'Missing Values Count',
+        "left": 'center'
+    },
+    "tooltip": {
+        "trigger": 'axis',
+        "axisPointer": {
+            "type": 'shadow'
+        }
+    },
+    "legend": {
+        "data": categories,
+        "top": 'bottom'
+    },
+    "grid": {
+        "left": '3%',
+        "right": '4%',
+        "bottom": '3%',
+        "containLabel": True
+    },
+    "xAxis": {
+        "type": 'category',
+        "data": categories,
+        "axisTick": {
+            "alignWithLabel": True
+        }
+    },
+    "yAxis": {
+        "type": 'value'
+    },
+    "series": [
+        {
+            "name": 'Missing Values Count',
+            "type": 'line',
+            "data": values,
+            "animationDuration": 2000,
+            "animationEasing": 'linear'
+        }
+    ]
+}
+
+st.write("### Chart for Missing Values")
+st_echarts(options=option, height="500px")
     # Map pandas dtypes to MySQL data types
     dtype_mapping = {
         'object': 'VARCHAR(255)',

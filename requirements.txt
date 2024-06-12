@@ -11,7 +11,3 @@ pyperclip
 openpyxl
 xlrd
 streamlit_echarts
-BytesIO
-Line
-options as opts
-ThemeType
